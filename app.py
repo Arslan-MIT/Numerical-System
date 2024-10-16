@@ -1,4 +1,5 @@
 import streamlit as st
+from time import sleep
 from PIL import Image
 
 # Conversion Functions
@@ -20,113 +21,97 @@ def octal_to_decimal(o):
 def hexadecimal_to_decimal(h):
     return int(h, 16)
 
-# Custom Styling: Inject some basic CSS
+# Custom Styling
 st.markdown("""
     <style>
     .stApp {
-        background-color: #f0f2f6;
+        background-color: #f8f9fa;  /* Light Background */
     }
     .title {
-        color: #2e86de;
-        font-size: 40px;
-        font-family: 'Arial Black';
+        color: #2d3436;
+        font-size: 36px;
+        font-family: 'Courier New', Courier, monospace;
         text-align: center;
     }
-    .convert-btn {
-        background-color: #f39c12;
+    .button {
+        background-color: #0984e3;
         border: none;
         color: white;
-        padding: 10px 24px;
+        padding: 10px;
         text-align: center;
-        display: inline-block;
         font-size: 16px;
         margin: 10px 2px;
         cursor: pointer;
-        transition: 0.3s;
         width: 100%;
-        border-radius: 8px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
     }
-    .convert-btn:hover {
-        background-color: #e67e22;
+    .button:hover {
+        background-color: #74b9ff;
+    }
+    .separator {
+        border-top: 3px solid #6c5ce7;
+        margin: 15px 0;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Streamlit App
+# Function to display loaders or animations
+def display_loader():
+    with st.spinner('Converting...'):
+        sleep(1.5)
+
+# Streamlit App Main Function
 def main():
-    st.markdown('<h1 class="title">Numerical Converter</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="title">Interactive Numerical Converter</h1>', unsafe_allow_html=True)
 
-    # Optional: Add an image as a banner
-    image = Image.open('converter_banner.jpg')  # Optional: Use an image
-    st.image(image, use_column_width=True)
-
-    st.write("---")  # Add a horizontal separator
+    # Optional: Add an image banner for aesthetics
+    # Uncomment if you have a banner image: st.image('converter_banner.jpg', use_column_width=True)
     
-    # Conversion type selection with improved layout
+    st.markdown('<div class="separator"></div>', unsafe_allow_html=True)  # Add a custom separator
+
+    # Conversion Type Selection with a Progress Bar or Animated Loader
     st.subheader("Choose Conversion Type:")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        conversion_type = st.selectbox(
-            "Select Conversion:",
-            ["Decimal to Binary", "Decimal to Octal", "Decimal to Hexadecimal"]
-        )
-    with col2:
-        conversion_type_rev = st.selectbox(
-            "Select Reverse Conversion:",
-            ["Binary to Decimal", "Octal to Decimal", "Hexadecimal to Decimal"]
-        )
-    
-    st.write("---")  # Add another horizontal separator
+    conversion_type = st.selectbox(
+        "Select Conversion:",
+        ["Decimal to Binary", "Decimal to Octal", "Decimal to Hexadecimal", "Binary to Decimal", "Octal to Decimal", "Hexadecimal to Decimal"]
+    )
 
-    # Input fields based on selection
-    st.subheader(f"Perform {conversion_type} or {conversion_type_rev}:")
+    # Dynamic input field based on conversion type
+    if "Decimal to" in conversion_type:
+        num = st.number_input("Enter Decimal Number", min_value=0)
+    else:
+        num_str = st.text_input("Enter the Number for Conversion:")
 
-    col_input, col_output = st.columns(2)
-    
-    with col_input:
+    # Button for Conversion
+    if st.button("Convert", css_classes='button'):
+        display_loader()  # Show a loader animation while converting
+
+        # Show the result based on selected conversion type
         if conversion_type == "Decimal to Binary":
-            num = st.number_input("Enter Decimal Number", min_value=0)
-            if st.button("Convert to Binary", key='bin', css_classes='convert-btn'):
-                st.success(f"Binary: {decimal_to_binary(int(num))}")
-
+            st.success(f"Binary: {decimal_to_binary(int(num))}")
         elif conversion_type == "Decimal to Octal":
-            num = st.number_input("Enter Decimal Number", min_value=0)
-            if st.button("Convert to Octal", key='octal', css_classes='convert-btn'):
-                st.success(f"Octal: {decimal_to_octal(int(num))}")
-
+            st.success(f"Octal: {decimal_to_octal(int(num))}")
         elif conversion_type == "Decimal to Hexadecimal":
-            num = st.number_input("Enter Decimal Number", min_value=0)
-            if st.button("Convert to Hexadecimal", key='hex', css_classes='convert-btn'):
-                st.success(f"Hexadecimal: {decimal_to_hexadecimal(int(num))}")
+            st.success(f"Hexadecimal: {decimal_to_hexadecimal(int(num))}")
+        elif conversion_type == "Binary to Decimal":
+            try:
+                st.success(f"Decimal: {binary_to_decimal(num_str)}")
+            except ValueError:
+                st.error("Invalid binary number. Please enter a valid binary number.")
+        elif conversion_type == "Octal to Decimal":
+            try:
+                st.success(f"Decimal: {octal_to_decimal(num_str)}")
+            except ValueError:
+                st.error("Invalid octal number. Please enter a valid octal number.")
+        elif conversion_type == "Hexadecimal to Decimal":
+            try:
+                st.success(f"Decimal: {hexadecimal_to_decimal(num_str)}")
+            except ValueError:
+                st.error("Invalid hexadecimal number. Please enter a valid hexadecimal number.")
 
-    with col_output:
-        if conversion_type_rev == "Binary to Decimal":
-            binary = st.text_input("Enter Binary Number (e.g., 1010):")
-            if st.button("Convert to Decimal", key='bin-rev', css_classes='convert-btn'):
-                try:
-                    st.success(f"Decimal: {binary_to_decimal(binary)}")
-                except ValueError:
-                    st.error("Invalid binary number. Please enter a valid binary number.")
-
-        elif conversion_type_rev == "Octal to Decimal":
-            octal = st.text_input("Enter Octal Number (e.g., 12):")
-            if st.button("Convert to Decimal", key='octal-rev', css_classes='convert-btn'):
-                try:
-                    st.success(f"Decimal: {octal_to_decimal(octal)}")
-                except ValueError:
-                    st.error("Invalid octal number. Please enter a valid octal number.")
-
-        elif conversion_type_rev == "Hexadecimal to Decimal":
-            hexadecimal = st.text_input("Enter Hexadecimal Number (e.g., 1A):")
-            if st.button("Convert to Decimal", key='hex-rev', css_classes='convert-btn'):
-                try:
-                    st.success(f"Decimal: {hexadecimal_to_decimal(hexadecimal)}")
-                except ValueError:
-                    st.error("Invalid hexadecimal number. Please enter a valid hexadecimal number.")
-
-    st.write("---")
     st.write("Built with ❤️ using Streamlit")
 
-# Running the app
+# Run the Streamlit app
 if __name__ == "__main__":
     main()
