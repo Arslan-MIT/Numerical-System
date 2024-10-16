@@ -20,23 +20,23 @@ def octal_to_decimal(o):
 def hexadecimal_to_decimal(h):
     return int(h, 16)
 
-# Custom Styling
+# Custom Styling with Improved Color Contrast
 st.markdown("""
     <style>
     .stApp {
-        background-color: #f8f9fa;  /* Light Background */
+        background-color: #F5F5F5;  /* Light grey background */
     }
     .title {
-        color: #2d3436;
+        color: #2c3e50;  /* Darker grey for text */
         font-size: 36px;
         font-family: 'Courier New', Courier, monospace;
         text-align: center;
     }
     .stButton > button {
-        background-color: #0984e3;
+        background-color: #16a085;  /* Teal button color */
         border: none;
         color: white;
-        padding: 10px;
+        padding: 12px;
         text-align: center;
         font-size: 16px;
         margin: 10px 2px;
@@ -46,11 +46,14 @@ st.markdown("""
         transition: background-color 0.3s ease;
     }
     .stButton > button:hover {
-        background-color: #74b9ff;
+        background-color: #1abc9c;  /* Light teal on hover */
     }
     .separator {
-        border-top: 3px solid #6c5ce7;
+        border-top: 3px solid #34495e;  /* Dark grey for separator */
         margin: 15px 0;
+    }
+    .selectbox {
+        color: #34495e;
     }
     </style>
 """, unsafe_allow_html=True)
