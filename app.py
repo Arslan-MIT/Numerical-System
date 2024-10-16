@@ -20,73 +20,93 @@ def octal_to_decimal(o):
 def hexadecimal_to_decimal(h):
     return int(h, 16)
 
-# Custom Styling with Improved Color Contrast
+# Custom Styling with Improved Color Scheme and Animations
 st.markdown("""
     <style>
+    /* Overall page styling */
     .stApp {
-        background-color: #F5F5F5;  /* Light grey background */
+        background-color: #EAEDED;  /* Light grey background for better contrast */
     }
+    /* Title styling */
     .title {
-        color: #2c3e50;  /* Darker grey for text */
-        font-size: 36px;
-        font-family: 'Courier New', Courier, monospace;
+        color: #1C2833;  /* Dark navy for high contrast text */
+        font-size: 42px;
+        font-family: 'Arial', sans-serif;
         text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
     }
+    /* Button styling with hover animation */
     .stButton > button {
-        background-color: #16a085;  /* Teal button color */
-        border: none;
+        background-color: #3498DB;  /* Bright blue for buttons */
         color: white;
         padding: 12px;
-        text-align: center;
-        font-size: 16px;
-        margin: 10px 2px;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: bold;
         cursor: pointer;
-        width: 100%;
-        border-radius: 10px;
-        transition: background-color 0.3s ease;
+        transition: transform 0.2s ease, background-color 0.3s ease; /* Button animation */
     }
+    /* Button hover effect */
     .stButton > button:hover {
-        background-color: #1abc9c;  /* Light teal on hover */
+        background-color: #2E86C1;  /* Darker blue on hover */
+        transform: scale(1.05);  /* Slight scale effect */
     }
+    /* Separator styling */
     .separator {
-        border-top: 3px solid #34495e;  /* Dark grey for separator */
-        margin: 15px 0;
+        border-top: 4px solid #34495e;
+        margin: 20px 0;
     }
-    .selectbox {
+    /* Subheader styling */
+    .stText {
+        color: #1C2833;
+        font-size: 24px;
+        font-family: 'Arial', sans-serif;
+    }
+    /* Input box styling */
+    input {
+        border: 2px solid #3498DB;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 18px;
         color: #34495e;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Function to display loaders or animations
+# Function to display animated loader or progress spinner
 def display_loader():
     with st.spinner('Converting...'):
         sleep(1.5)
 
 # Streamlit App Main Function
 def main():
+    # App title
     st.markdown('<h1 class="title">Interactive Numerical Converter</h1>', unsafe_allow_html=True)
 
-    st.markdown('<div class="separator"></div>', unsafe_allow_html=True)  # Add a custom separator
+    # Separator
+    st.markdown('<div class="separator"></div>', unsafe_allow_html=True)
 
-    # Conversion Type Selection with a Progress Bar or Animated Loader
-    st.subheader("Choose Conversion Type:")
+    # Conversion Type Selection
+    st.markdown('<h3 class="stText">Choose Conversion Type:</h3>', unsafe_allow_html=True)
     conversion_type = st.selectbox(
         "Select Conversion:",
         ["Decimal to Binary", "Decimal to Octal", "Decimal to Hexadecimal", "Binary to Decimal", "Octal to Decimal", "Hexadecimal to Decimal"]
     )
 
-    # Dynamic input field based on conversion type
+    # Input fields based on conversion type
     if "Decimal to" in conversion_type:
         num = st.number_input("Enter Decimal Number", min_value=0)
     else:
         num_str = st.text_input("Enter the Number for Conversion:")
 
-    # Button for Conversion
+    # Convert button with animation
     if st.button("Convert"):
-        display_loader()  # Show a loader animation while converting
+        display_loader()  # Show animated loader
 
-        # Show the result based on selected conversion type
+        # Perform conversion based on type
         if conversion_type == "Decimal to Binary":
             st.success(f"Binary: {decimal_to_binary(int(num))}")
         elif conversion_type == "Decimal to Octal":
