@@ -73,6 +73,22 @@ st.markdown("""
         font-size: 18px;
         color: #34495e;
     }
+    /* Output text styling */
+    .output-text {
+        color: #1C2833; /* Dark text color */
+        background-color: #D5E8F2; /* Light blue background for output */
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+    /* Custom styling for footer text */
+    .footer-text {
+        color: #2980B9; /* Change to a nice blue */
+        font-size: 16px;
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        margin-top: 20px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -108,28 +124,28 @@ def main():
 
         # Perform conversion based on type
         if conversion_type == "Decimal to Binary":
-            st.success(f"Binary: {decimal_to_binary(int(num))}")
+            st.markdown(f'<div class="output-text">Binary: {decimal_to_binary(int(num))}</div>', unsafe_allow_html=True)
         elif conversion_type == "Decimal to Octal":
-            st.success(f"Octal: {decimal_to_octal(int(num))}")
+            st.markdown(f'<div class="output-text">Octal: {decimal_to_octal(int(num))}</div>', unsafe_allow_html=True)
         elif conversion_type == "Decimal to Hexadecimal":
-            st.success(f"Hexadecimal: {decimal_to_hexadecimal(int(num))}")
+            st.markdown(f'<div class="output-text">Hexadecimal: {decimal_to_hexadecimal(int(num))}</div>', unsafe_allow_html=True)
         elif conversion_type == "Binary to Decimal":
             try:
-                st.success(f"Decimal: {binary_to_decimal(num_str)}")
+                st.markdown(f'<div class="output-text">Decimal: {binary_to_decimal(num_str)}</div>', unsafe_allow_html=True)
             except ValueError:
                 st.error("Invalid binary number. Please enter a valid binary number.")
         elif conversion_type == "Octal to Decimal":
             try:
-                st.success(f"Decimal: {octal_to_decimal(num_str)}")
+                st.markdown(f'<div class="output-text">Decimal: {octal_to_decimal(num_str)}</div>', unsafe_allow_html=True)
             except ValueError:
                 st.error("Invalid octal number. Please enter a valid octal number.")
         elif conversion_type == "Hexadecimal to Decimal":
             try:
-                st.success(f"Decimal: {hexadecimal_to_decimal(num_str)}")
+                st.markdown(f'<div class="output-text">Decimal: {hexadecimal_to_decimal(num_str)}</div>', unsafe_allow_html=True)
             except ValueError:
                 st.error("Invalid hexadecimal number. Please enter a valid hexadecimal number.")
 
-    st.write("Built with ❤️ using Streamlit")
+    st.markdown('<div class="footer-text">Built with ❤️ using Streamlit</div>', unsafe_allow_html=True)
 
 # Run the Streamlit app
 if __name__ == "__main__":
