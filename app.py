@@ -40,7 +40,7 @@ st.markdown("""
     /* Button styling with hover animation */
     .stButton > button {
         background-color: #3498DB;  /* Bright blue for buttons */
-        color: white;
+        color: white;  /* Bright text color inside the button */
         padding: 12px;
         border: none;
         border-radius: 12px;
@@ -51,7 +51,7 @@ st.markdown("""
     }
     /* Button hover effect */
     .stButton > button:hover {
-        background-color: #2E86C1;  /* Darker blue on hover */
+        background-color: #2980B9;  /* Darker blue on hover */
         transform: scale(1.05);  /* Slight scale effect */
     }
     /* Separator styling */
